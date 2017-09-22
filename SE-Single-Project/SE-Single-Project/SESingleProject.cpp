@@ -5,13 +5,19 @@
 #include "iostream"
 #include "fstream"
 #include "string"
-#include "SudokuBoard.h"
+#include "memory.h"
+#include "fstream"
+#include "Sudoku.h"
+#include "time.h"
 
 using namespace std;
 
+
 int main(int argc,char* argv[])
 {
-	SudokuBoard a;
+	char* filename = "e:\\sudoku.txt";
+	Sudoku temp;
+	temp.generate_output_n(1000000, filename);
     return 0;
 }
 
