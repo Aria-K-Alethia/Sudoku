@@ -16,6 +16,7 @@ private:
 	char board[LEN+1][LEN+1];
 	void init();
 	void trace_back_n(int i,int j,int n, fstream& file);
+	void trace_back_solve(int i, int j);
 	inline int get_block(int i);
 	static long int count;
 public:
@@ -24,6 +25,7 @@ public:
 	Sudoku(Sudoku &b);
 	string toString();
 	void generate_output_n(int n,char* filename);
+	void get(char** b);
 	void solve();
 	bool check();
 	bool check_pos(int i, int j);

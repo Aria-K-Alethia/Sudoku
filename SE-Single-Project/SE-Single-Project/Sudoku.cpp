@@ -5,6 +5,7 @@
 #include "memory.h"
 #include "fstream"
 #include "iostream"
+
 #define START 2
 #define LEN 9
 
@@ -47,7 +48,7 @@ void Sudoku::generate_output_n(int n,char* filename)
 	//do some prepare
 	assert(Sudoku::count == 0);
 	fstream file;
-	file.open(filename, ios::app | ios::out);
+	file.open(filename, ios::out);
 	if (file.is_open()) {
 		//start from (1,2) since START has been filled
 		trace_back_n(1,2,n, file);
@@ -58,12 +59,26 @@ void Sudoku::generate_output_n(int n,char* filename)
 	file.close();
 	
 }
+
+
 void solve()
 {
 	return;
 }
 
 //some useful method
+
+void Sudoku::get(char **b)
+{
+	//@overview:copy a board from b
+	assert(b != NULL);
+	for (int i = 1; i <= LEN; ++i) {
+		for (int j = 1; j <= LEN; ++j) {
+			board[i][j] = b[i][j];
+		}
+	}
+}
+
 
 string Sudoku::toString()
 {
