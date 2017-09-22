@@ -4,8 +4,11 @@
 #include "Output.h"
 #include "string"
 #include "sstream"
+#include "ctype.h"
+#include "iostream"
 
 using namespace std;
+#define LEN 9
 /*
 @overview:this file implement the class InputHandler in InputHandler.h
 */
@@ -69,6 +72,31 @@ int InputHandler::get_number()
 	*/
 
 	return number;
+}
+
+bool InputHandler::get_board(fstream &file,char board[][LEN+1])
+{
+	/*
+	@overview:get a board from file,if the format is wrong,raise error
+	*/
+	regex p("^(\\d\\s){8}\\d$");
+	smatch m;
+	string s;
+	//should have 10 lines for a single board;
+	for (int i = 1; i <= LEN; ++i) {
+		if(!getline(file,s)) return false;
+		//cout << s.length() << endl;
+		if (!regex_match(s, m, p)) Output::error(5);
+		int j = 1;
+		for (int k = 0; k < s.length(); ++k) {
+			if (!isspace(s[k])) {
+				board[i][j] = s[k];
+				++j;
+			}
+		}
+	}
+	getline(file, s);
+	return true;
 }
 
 

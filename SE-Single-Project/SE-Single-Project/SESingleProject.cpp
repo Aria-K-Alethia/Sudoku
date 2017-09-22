@@ -1,5 +1,3 @@
-// SESingleProject.cpp: 定义控制台应用程序的入口点。
-//
 
 #include "stdafx.h"
 #include "iostream"
@@ -12,30 +10,31 @@
 #include "time.h"
 #include "regex"
 #include "sstream"
+#include "Output.h"
 using namespace std;
+
+//#define LEN 9
 
 
 int main(int argc, char* argv[])
 {
-	/*clock_t on, off;
+	clock_t on, off;
 	InputHandler input(argc,argv);
 	char* filename = "e:\\sudoku.txt";
-	Sudoku temp;
+	Sudoku sudoku;
+	input.analyze();
 	on = clock();
-	//temp.generate_output_n(1000000, filename);
+	//mode c to generate sudoku in file
+	if (input.get_mode() == 'c') {
+		sudoku.generate_output_n(input.get_number(), filename);
+	}
+	//mode s to solve sudoku in file and output
+	else if (input.get_mode() == 's') {
+		sudoku.solve_and_output(input, filename);
+	}
 	off = clock();
 	cout << "total time:" << (off - on) / CLOCKS_PER_SEC << endl;
-	*/
-	cout << argc << endl;
 	
-	InputHandler input(argc, argv);
-	input.analyze();
-	if (input.get_mode() == 'c') {
-		cout << input.get_number() << endl;
-	}
-	else if (input.get_mode() == 's') {
-		cout << input.get_filename() << endl;
-	}
     return 0;
 }
 

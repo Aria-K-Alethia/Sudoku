@@ -5,6 +5,7 @@
 #include "memory.h"
 #include "fstream"
 #include "iostream"
+#include "Output.h"
 
 #define START 2
 #define LEN 9
@@ -53,22 +54,47 @@ void Sudoku::generate_output_n(int n,char* filename)
 		//start from (1,2) since START has been filled
 		trace_back_n(1,2,n, file);
 	}
-	else {
-		cout << "bad filename:" << filename << endl;
-	}
+	else 
+		Output::error(4);
 	file.close();
 	
 }
 
 
-void solve()
+bool Sudoku::solve()
 {
-	return;
+	/*
+	@overview:solve a sudoku game in this board
+	*/
+
+	//start from (1,1)
+	return trace_back_solve(1, 1);
+}
+
+void Sudoku::solve_and_output(InputHandler input,char* filename)
+{
+	/*
+	@overview:solve sudoku in input.filename and output to file with filename
+	*/
+	fstream infile(input.get_filename(), ios::in);
+	fstream file(filename, ios::out | ios::app);
+	if (!infile.is_open()) Output::error(4);
+	char board[LEN + 1][LEN + 1];
+	while (input.get_board(infile, board)) {
+		set(board);
+		if (solve()) {
+			string outcome = toString();
+			file << outcome << endl;
+		}
+		else Output::error(6);
+	}
+	infile.close();	
+	file.close();
 }
 
 //some useful method
 
-void Sudoku::get(char **b)
+void Sudoku::set(char b[][LEN+1])
 {
 	//@overview:copy a board from b
 	assert(b != NULL);
@@ -189,14 +215,35 @@ void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
 	board[i][j] = '0';
 }
 
+bool Sudoku::trace_back_solve(int i, int j)
+{
+	/*@overview:trace back function when solve sudoku
+	   @param:
+	*/
+	if (i == LEN && j == LEN + 1) return true;
+	if (i != LEN && j == LEN + 1) {
+		j = 1;
+		++i;
+	}
+	if (board[i][j] != '0') return trace_back_solve(i, j + 1);
+	bool outcome;
+	for (int k = 1; k <= LEN ; ++k) {
+		if (check_solve_pos(i, j, k)) {
+			board[i][j] = k + '0';
+			outcome = trace_back_solve(i, j + 1);
+			if (outcome) return true;
+		}
+	}
+	board[i][j] = '0';
+	return false;
+}
+
 bool Sudoku::check_generate_pos(int i, int j,int k)
 {
 	/*@overview:check if the board is valid when board[i][j] = k,this method omit 0 in the board
 	   @param:
 	*/
 
-	bool used[LEN + 1];
-	memset(used, 0, sizeof(used));
 	//check row
 	for (int a = 1; a < j; ++a) {
 		if (board[i][a] == k + '0') return false;
@@ -213,6 +260,35 @@ bool Sudoku::check_generate_pos(int i, int j,int k)
 	for (int a = row; a <= i; ++a) {
 		for (int b = col; b <= col +2; ++b) {
 			if (a == i && b == j) continue;
+			if (board[a][b] == k + '0') return false;
+		}
+	}
+
+	return true;
+}
+
+bool Sudoku::check_solve_pos(int i, int j, int k)
+{
+	/*@overview:check if k in (i,j) is valid when solving a sudoku
+	   @param:
+	*/
+	
+	//init
+	//check row
+	for (int a = 1; a <= LEN; ++a) {
+		if (board[i][a] == k + '0') return false;
+	}
+	//check col
+	for (int a = 1; a <= LEN; ++a) {
+		if (board[a][j] == k + '0') return false;
+	}
+	//check 3x3 block
+	int row, col;
+	row = get_block(i);
+	col = get_block(j);
+
+	for (int a = row; a <= row+2; ++a) {
+		for (int b = col; b <= col + 2; ++b) {
 			if (board[a][b] == k + '0') return false;
 		}
 	}
