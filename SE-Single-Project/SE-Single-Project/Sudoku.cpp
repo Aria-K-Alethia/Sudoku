@@ -83,8 +83,9 @@ void Sudoku::solve_and_output(InputHandler input,char* filename)
 	while (input.get_board(infile, board)) {
 		set(board);
 		if (solve()) {
-			string outcome = toString();
-			file << outcome << endl;
+			char* outcome = toString();
+			file << outcome;
+			delete outcome;
 		}
 		else Output::error(6);
 	}
@@ -106,17 +107,20 @@ void Sudoku::set(char b[][LEN+1])
 }
 
 
-string Sudoku::toString()
+char* Sudoku::toString()
 {
 	//@overview:turn the board into a standard string.
-	string outcome = "";
+	char*outcome = new char[200];
+	int pos=0;
 	for (int i = 1; i <= LEN ; ++i) {
 		for (int j = 1; j <= LEN ; ++j) {
-			outcome += board[i][j];
-			if (j != LEN) outcome += " ";
+			outcome[pos++] = board[i][j];
+			if (j != LEN) outcome[pos++] = ' ';
 		}
-		outcome += "\n";
+		outcome[pos++] = '\n';
 	}
+	outcome[pos++] = '\n';
+	outcome[pos] = '\0';
 	return outcome;
 }
 
@@ -195,9 +199,10 @@ void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
 	//@overview:trace back method for generate_output_n method.
 	if (i == 9 && j == 10) {
 		if (Sudoku::count >= n) return;
-		if (!check()) Output::error(7);
-		string outcome = toString();
-		file << outcome << endl;
+		//if (!check()) Output::error(7);
+		char* outcome = toString();
+		file << outcome;
+		delete[]outcome;
 		Sudoku::count++;
 		return;
 	}

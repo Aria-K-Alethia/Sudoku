@@ -18,13 +18,13 @@ int main(int argc, char* argv[])
 {
 	clock_t on, off;
 	InputHandler input(argc,argv);
-	char* filename = "e:\\sudoku.txt";
+	char* filename = "e:\\sudoku1.txt";
 	Sudoku sudoku;
 	input.analyze();
 	on = clock();
 	//mode c to generate sudoku in file
 	if (input.get_mode() == 'c') {
-		sudoku.generate_output_n(input.get_number(), filename);
+		sudoku.generate_output_n(1000000, filename);
 	}
 	//mode s to solve sudoku in file and output
 	else if (input.get_mode() == 's') {

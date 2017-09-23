@@ -24,7 +24,7 @@ public:
 	Sudoku();
 	Sudoku(char **b);
 	Sudoku(Sudoku &b);
-	string toString();
+	char* toString();
 	void generate_output_n(int n,char* filename);
 	void set(char b[][LEN+1]);
 	bool solve();
