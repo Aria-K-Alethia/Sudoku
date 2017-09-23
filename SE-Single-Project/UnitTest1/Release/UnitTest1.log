@@ -1,0 +1,6 @@
+﻿LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/LTCG”规范)
+    正在创建库 F:\StuRn\课程\大三上\Software Engineering\Single Project\SE-Single-Project\SE-Single-Project\Release\UnitTest1.lib 和对象 F:\StuRn\课程\大三上\Software Engineering\Single Project\SE-Single-Project\SE-Single-Project\Release\UnitTest1.exp
+  正在生成代码
+  All 1022 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  UnitTest1.vcxproj -> F:\StuRn\课程\大三上\Software Engineering\Single Project\SE-Single-Project\SE-Single-Project\Release\UnitTest1.dll
