@@ -3,11 +3,16 @@
 #include "../SE-Single-Project/InputHandler.h"
 #include "../SE-Single-Project/Output.h"
 #include "../SE-Single-Project/Sudoku.h"
+#include "../SE-Single-Project/InputHandler.cpp"
+#include "../SE-Single-Project/Output.cpp"
+#include "../SE-Single-Project/Sudoku.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 /*
 	@overview:unit test for sudoku project
+	NOTE:this unit test will not pass if you run all test case together.Also,it needs some
+	constructions of file in disk.
 */
 
 namespace UnitTest1
@@ -28,6 +33,22 @@ namespace UnitTest1
 	public:
 		int argc;
 		char** argv1, **argv2;
+		UnitTest1() {
+			argc = 3;
+			argv1 = new char*[3];
+			argv2 = new char*[3];
+			for (int i = 0; i < 3; ++i) {
+				argv1[i] = new char[100];
+				argv2[i] = new char[100];
+			}
+			strcpy_s(argv1[0], 100, "sudoku.exe");
+			strcpy_s(argv1[1], 100, "-c");
+			strcpy_s(argv1[2], 100, "123213");
+
+			strcpy_s(argv2[0], 100, "sudoku.exe");
+			strcpy_s(argv2[1], 100, "-s");
+			strcpy_s(argv2[2], 100, "puzzle.txt");
+		}
 		TEST_METHOD(TestMethod1)
 		{
 			//@test:Constructor(argc,argv)
@@ -147,22 +168,7 @@ namespace UnitTest1
 			file.close();
 		}
 
-		 UnitTest1() {
-			argc = 3;
-			argv1 = new char*[3];
-			argv2 = new char*[3];
-			for (int i = 0; i < 3; ++i) {
-				argv1[i] = new char[100];
-				argv2[i] = new char[100];
-			}
-			strcmp(argv1[0], "sudoku.exe");
-			strcmp(argv1[1], "-c");
-			strcmp(argv1[2], "123213");
-
-			strcmp(argv2[0], "sudoku.exe");
-			strcmp(argv2[1], "-s");
-			strcmp(argv2[2], "puzzle.txt");
-		}
+		 
 
 	};
 }

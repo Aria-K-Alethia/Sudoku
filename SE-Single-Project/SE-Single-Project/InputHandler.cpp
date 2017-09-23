@@ -88,7 +88,7 @@ bool InputHandler::get_board(fstream &file,char board[][LEN+1])
 		//cout << s.length() << endl;
 		if (!regex_match(s, m, p)) Output::error(5);
 		int j = 1;
-		for (int k = 0; k < s.length(); ++k) {
+		for (int k = 0; (unsigned)k < s.length(); ++k) {
 			if (!isspace(s[k])) {
 				board[i][j] = s[k];
 				++j;
