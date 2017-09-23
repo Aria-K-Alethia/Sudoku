@@ -13,8 +13,6 @@
 #include "Output.h"
 using namespace std;
 
-//#define LEN 9
-
 
 int main(int argc, char* argv[])
 {

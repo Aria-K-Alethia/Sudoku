@@ -195,6 +195,7 @@ void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
 	//@overview:trace back method for generate_output_n method.
 	if (i == 9 && j == 10) {
 		if (Sudoku::count >= n) return;
+		if (!check()) Output::error(7);
 		string outcome = toString();
 		file << outcome << endl;
 		Sudoku::count++;

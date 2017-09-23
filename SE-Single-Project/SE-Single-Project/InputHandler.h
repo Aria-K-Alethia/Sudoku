@@ -15,7 +15,7 @@ public:
 	int get_number();
 	bool get_board(fstream &file,char board[][LEN+1]);
 
-private:
+//private:
 	int argc;
 	char** argv;
 	char mode;
