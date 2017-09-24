@@ -10,25 +10,25 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 /*
-	@overview:unit test for sudoku project
-	NOTE:this unit test will not pass if you run all test case together.Also,it needs some
-	constructions of file in disk.
+@overview:unit test for sudoku project
+NOTE:this unit test will not pass if you run all test case together.Also,it needs some
+constructions of file in disk.
 */
 
 namespace UnitTest1
-{		
-	
+{
+
 	TEST_CLASS(UnitTest1)
 	{
 		/*
 		@overview:test InputHandler
 		@to be test:
-					InputHandler(int argc,char** argv);
-					void analyze();
-					char get_mode();
-					char* get_filename();
-					int get_number();
-					bool get_board(fstream &file,char board[][LEN+1]);
+		InputHandler(int argc,char** argv);
+		void analyze();
+		char get_mode();
+		char* get_filename();
+		int get_number();
+		bool get_board(fstream &file,char board[][LEN+1]);
 		*/
 	public:
 		int argc;
@@ -52,9 +52,9 @@ namespace UnitTest1
 		TEST_METHOD(TestMethod1)
 		{
 			//@test:Constructor(argc,argv)
-			InputHandler input(argc,argv1);
+			InputHandler input(argc, argv1);
 			Assert::AreEqual(input.argc, argc);
-			Assert::AreEqual(input.argv==argv1,true);
+			Assert::AreEqual(input.argv == argv1, true);
 		}
 
 		TEST_METHOD(TestMethod2)
@@ -62,7 +62,7 @@ namespace UnitTest1
 			//@test:void analyze();
 			InputHandler input(argc, argv1);
 			input.analyze();
-			Assert::AreEqual(input.mode=='c',true);
+			Assert::AreEqual(input.mode == 'c', true);
 			Assert::AreEqual(input.number, 123213);
 		}
 		TEST_METHOD(TestMethod3)
@@ -77,7 +77,7 @@ namespace UnitTest1
 			//@test:char* get_filename();
 			InputHandler input(argc, argv2);
 			input.analyze();
-			Assert::AreEqual(strcmp("puzzle.txt",input.get_filename()),0);
+			Assert::AreEqual(strcmp("puzzle.txt", input.get_filename()), 0);
 		}
 		TEST_METHOD(TestMethod5)
 		{
@@ -107,9 +107,9 @@ namespace UnitTest1
 		/*
 		@overview:test InputHandler
 		@to be test:
-							bool check();
-							void generate_output_n(int n,char* filename);
-							bool solve();			
+		bool check();
+		void generate_output_n(int n,char* filename);
+		bool solve();
 		*/
 
 		TEST_METHOD(TestMethod7)
@@ -133,7 +133,7 @@ namespace UnitTest1
 			file.close();
 		}
 		TEST_METHOD(TestMethod8)
-		{
+		{ 
 			//@test:void generate_output_n(int n,char* filename);
 			char* filename = "e:\\sudoku.txt";
 			Sudoku sudoku;
@@ -168,7 +168,7 @@ namespace UnitTest1
 			file.close();
 		}
 
-		 
+
 
 	};
 }
