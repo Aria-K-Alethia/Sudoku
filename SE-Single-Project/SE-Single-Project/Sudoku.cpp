@@ -12,6 +12,10 @@
 
 using namespace std;
 long int Sudoku::count = 0;
+//below is fast code
+char* Sudoku::out = new char[163*1000000+1];
+long int Sudoku::out_pos = 0;
+//fast code end
 /*
 @overview:this file implement the class Sudoku in Sudoku.h
 */
@@ -76,19 +80,30 @@ void Sudoku::solve_and_output(InputHandler input,char* filename)
 	/*
 	@overview:solve sudoku in input.filename and output to file with filename
 	*/
-	fstream infile(input.get_filename(), ios::in);
+	//fstream infile(input.get_filename(), ios::in);
+	fstream infile("e:\\puzzle.txt", ios::in);
 	fstream file(filename, ios::out | ios::app);
 	if (!infile.is_open()) Output::error(4);
 	char board[LEN + 1][LEN + 1];
 	while (input.get_board(infile, board)) {
 		set(board);
 		if (solve()) {
+			/*
 			char* outcome = toString();
 			file << outcome;
 			delete outcome;
+			*/
+			//below is fast code
+			toString();
+			//fast code end
 		}
 		else Output::error(6);
 	}
+	//below is fast code
+	Sudoku::out[Sudoku::out_pos] = '\0';
+	file << Sudoku::out;
+	delete[] Sudoku::out;
+	//fast code end
 	infile.close();	
 	file.close();
 }
@@ -106,7 +121,7 @@ void Sudoku::set(char b[][LEN+1])
 	}
 }
 
-
+/*
 char* Sudoku::toString()
 {
 	//@overview:turn the board into a standard string.
@@ -123,6 +138,22 @@ char* Sudoku::toString()
 	outcome[pos] = '\0';
 	return outcome;
 }
+*/
+
+//below is fast code
+inline char* Sudoku::toString()
+{
+	for (int i = 1; i <= LEN; ++i) {
+		for (int j = 1; j <= LEN; ++j) {
+			Sudoku::out[Sudoku::out_pos++] = board[i][j];
+			if (j != LEN) Sudoku::out[Sudoku::out_pos++] = ' ';
+		}
+		Sudoku::out[Sudoku::out_pos++] = '\n';
+	}
+	Sudoku::out[Sudoku::out_pos++] = '\n';
+	return NULL;
+}
+//fast code end
 
 bool Sudoku::check()
 {
@@ -194,16 +225,27 @@ inline int Sudoku::get_block(int i)
 	return ((i - 1) / 3) * 3 + 1;
 }
 
-void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
+inline void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
 {
 	//@overview:trace back method for generate_output_n method.
 	if (i == 9 && j == 10) {
 		if (Sudoku::count >= n) return;
 		//if (!check()) Output::error(7);
+		/*
 		char* outcome = toString();
 		file << outcome;
 		delete[]outcome;
+		*/
+		
 		Sudoku::count++;
+		//below is a fast code,if recover,delete it
+		toString();
+		if (Sudoku::count == n) {
+			Sudoku::out[Sudoku::out_pos] = '\0';
+			file << Sudoku::out;
+			delete[] Sudoku::out;
+		}
+		//fast code end
 		return;
 	}
 	if (i != 9 && j == 10) {
@@ -221,7 +263,7 @@ void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
 	board[i][j] = '0';
 }
 
-bool Sudoku::trace_back_solve(int i, int j)
+inline bool Sudoku::trace_back_solve(int i, int j)
 {
 	/*@overview:trace back function when solve sudoku
 	   @param:
@@ -279,7 +321,6 @@ bool Sudoku::check_solve_pos(int i, int j, int k)
 	   @param:
 	*/
 	
-	//init
 	//check row
 	for (int a = 1; a <= LEN; ++a) {
 		if (board[i][a] == k + '0') return false;

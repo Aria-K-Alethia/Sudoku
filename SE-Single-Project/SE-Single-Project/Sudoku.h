@@ -16,15 +16,18 @@ class Sudoku
 private:
 	char board[LEN+1][LEN+1];
 	void init();
-	void trace_back_n(int i,int j,int n, fstream& file);
-	bool trace_back_solve(int i, int j);
+	inline void trace_back_n(int i,int j,int n, fstream& file);
+	inline bool trace_back_solve(int i, int j);
 	inline int get_block(int i);
 	static long int count;
+	//below is the fast code
+	static char* out;
+	static long int out_pos;
 public:
 	Sudoku();
 	Sudoku(char **b);
 	Sudoku(Sudoku &b);
-	char* toString();
+	inline char* toString();
 	void generate_output_n(int n,char* filename);
 	void set(char b[][LEN+1]);
 	bool solve();
