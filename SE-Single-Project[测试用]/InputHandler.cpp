@@ -86,7 +86,10 @@ bool InputHandler::get_board(fstream &file,char board[][LEN+1])
 	for (int i = 1; i <= LEN; ++i) {
 		if(!getline(file,s)) return false;
 		//cout << s.length() << endl;
-		if (!regex_match(s, m, p)) Output::error(5);
+		if (!regex_match(s, m, p)) {
+			file.close();
+			Output::error(5);
+		}
 		int j = 1;
 		for (int k = 0; (unsigned)k < s.length(); ++k) {
 			if (!isspace(s[k])) {

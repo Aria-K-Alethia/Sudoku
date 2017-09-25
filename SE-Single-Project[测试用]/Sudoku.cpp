@@ -81,7 +81,6 @@ void Sudoku::solve_and_output(InputHandler input,char* filename)
 	@overview:solve sudoku in input.filename and output to file with filename
 	*/
 	fstream infile(input.get_filename(), ios::in);
-	fstream file(filename, ios::out | ios::app);
 	if (!infile.is_open()) Output::error(4);
 	char board[LEN + 1][LEN + 1];
 	while (input.get_board(infile, board)) {
@@ -96,10 +95,14 @@ void Sudoku::solve_and_output(InputHandler input,char* filename)
 			toString();
 			//fast code end
 		}
-		else Output::error(6);
+		else {
+			infile.close();
+			Output::error(6);
+		}
 	}
 	//below is fast code
 	Sudoku::out[Sudoku::out_pos] = '\0';
+	fstream file(filename, ios::out | ios::app);
 	file << Sudoku::out;
 	delete[] Sudoku::out;
 	//fast code end
@@ -254,9 +257,9 @@ inline void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
 
 	for (int k = 1; k <= LEN; ++k) {
 		if (Sudoku::count >= n) return;
-		if (check_generate_pos(i, j, k)) {
+		if (check_generate_pos(i, j, k)) {   //check if it is ok to set k on (i,j)
 			board[i][j] = k + '0';
-			trace_back_n(i, j + 1, n, file);
+			trace_back_n(i, j + 1, n, file);    //if can,recur to next place
 		}
 	}
 	board[i][j] = '0';

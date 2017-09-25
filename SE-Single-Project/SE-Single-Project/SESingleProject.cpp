@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 	InputHandler input(argc,argv);
 	char* filename = "sudoku.txt";
 	Sudoku sudoku;
+	
 	input.analyze();
 	//mode c to generate sudoku in file
 	if (input.get_mode() == 'c') {
