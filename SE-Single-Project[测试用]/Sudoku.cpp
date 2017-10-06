@@ -116,11 +116,7 @@ void Sudoku::set(char b[][SUDOKU_LEN+1])
 {
 	//@overview:copy a board from b
 	assert(b != NULL);
-	for (int i = 1; i <= SUDOKU_LEN; ++i) {
-		for (int j = 1; j <= SUDOKU_LEN; ++j) {
-			board[i][j] = b[i][j];
-		}
-	}
+	memcpy(board,b,(SUDOKU_LEN+1)*(SUDOKU_LEN+1))
 }
 
 /*
