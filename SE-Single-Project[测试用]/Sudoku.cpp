@@ -7,8 +7,8 @@
 #include "iostream"
 #include "Output.h"
 
-#define START 2
-#define LEN 9
+#define SUDOKU_START_NUM2
+#define SUDOKU_LEN 9
 
 using namespace std;
 long int Sudoku::count = 0;
@@ -31,8 +31,8 @@ Sudoku::Sudoku(char **b)
 {
 	//@overview:init a board in terms of b
 	assert(b != NULL);
-	for (int i = 1; i <= LEN; ++i) {
-		for (int j = 1; j <= LEN; ++j) {
+	for (int i = 1; i <= SUDOKU_LEN; ++i) {
+		for (int j = 1; j <= SUDOKU_LEN; ++j) {
 			board[i][j] = b[i][j];
 		}
 	}
@@ -40,8 +40,8 @@ Sudoku::Sudoku(char **b)
 Sudoku::Sudoku(Sudoku &b)
 {
 	//@overview:copy constructor
-	for (int i = 1; i <= LEN; ++i) {
-		for (int j = 1; j <= LEN; ++j) {
+	for (int i = 1; i <=SUDOKU_LEN; ++i) {
+		for (int j = 1; j <= SUDOKU_LEN; ++j) {
 			board[i][j] = b.board[i][j];
 		}
 	}
@@ -82,7 +82,7 @@ void Sudoku::solve_and_output(InputHandler input,char* filename)
 	*/
 	fstream infile(input.get_filename(), ios::in);
 	if (!infile.is_open()) Output::error(4);
-	char board[LEN + 1][LEN + 1];
+	char board[SUDOKU_LEN + 1][SUDOKU_LEN + 1];
 	while (input.get_board(infile, board)) {
 		set(board);
 		if (solve()) {
@@ -112,12 +112,12 @@ void Sudoku::solve_and_output(InputHandler input,char* filename)
 
 //some useful method
 
-void Sudoku::set(char b[][LEN+1])
+void Sudoku::set(char b[][SUDOKU_LEN+1])
 {
 	//@overview:copy a board from b
 	assert(b != NULL);
-	for (int i = 1; i <= LEN; ++i) {
-		for (int j = 1; j <= LEN; ++j) {
+	for (int i = 1; i <= SUDOKU_LEN; ++i) {
+		for (int j = 1; j <= SUDOKU_LEN; ++j) {
 			board[i][j] = b[i][j];
 		}
 	}
@@ -129,10 +129,10 @@ char* Sudoku::toString()
 	//@overview:turn the board into a standard string.
 	char*outcome = new char[200];
 	int pos=0;
-	for (int i = 1; i <= LEN ; ++i) {
-		for (int j = 1; j <= LEN ; ++j) {
+	for (int i = 1; i <= SUDOKU_LEN ; ++i) {
+		for (int j = 1; j <= LENSUDOKU_LEN ; ++j) {
 			outcome[pos++] = board[i][j];
-			if (j != LEN) outcome[pos++] = ' ';
+			if (j !=SUDOKU_LEN) outcome[pos++] = ' ';
 		}
 		outcome[pos++] = '\n';
 	}
@@ -145,10 +145,10 @@ char* Sudoku::toString()
 //below is fast code
 inline char* Sudoku::toString()
 {
-	for (int i = 1; i <= LEN; ++i) {
-		for (int j = 1; j <= LEN; ++j) {
+	for (int i = 1; i <= SUDOKU_LEN; ++i) {
+		for (int j = 1; j <= SUDOKU_LEN; ++j) {
 			Sudoku::out[Sudoku::out_pos++] = board[i][j];
-			if (j != LEN) Sudoku::out[Sudoku::out_pos++] = ' ';
+			if (j != SUDOKU_LEN) Sudoku::out[Sudoku::out_pos++] = ' ';
 		}
 		Sudoku::out[Sudoku::out_pos++] = '\n';
 	}
@@ -160,8 +160,8 @@ inline char* Sudoku::toString()
 bool Sudoku::check()
 {
 	//@overview:check if the whole sudoku is valid
-	for (int i = 1; i <= LEN; ++i) {
-		for (int j = 1; j <= LEN; ++j) {
+	for (int i = 1; i <=SUDOKU_LEN; ++i) {
+		for (int j = 1; j <= SUDOKU_LEN; ++j) {
 			if (!check_pos(i, j)) return false;
 		}
 	}
@@ -171,11 +171,11 @@ bool Sudoku::check()
 bool Sudoku::check_pos(int i, int j)
 {
 	//@overview:check the num in pos (i,j) is valid or not
-	bool used[LEN + 1];
+	bool used[SUDOKU_LEN + 1];
 	memset(used, 0, sizeof(used));
 	int num;
 	//check row
-	for (int k = 1; k <= LEN; ++k) {
+	for (int k = 1; k <= SUDOKU_LEN; ++k) {
 		num = board[i][k] - '0';
 		if (num == 0) return false;
 		if (!used[num]) used[num] = true;
@@ -183,7 +183,7 @@ bool Sudoku::check_pos(int i, int j)
 	}
 	//check column
 	memset(used, 0, sizeof(used));
-	for (int k = 1; k <= LEN; ++k) {
+	for (int k = 1; k <= SUDOKU_LEN; ++k) {
 		num = board[k][j] - '0';
 		if (num == 0) return false;
 		if (!used[num]) used[num] = true;
@@ -211,12 +211,12 @@ bool Sudoku::check_pos(int i, int j)
 void Sudoku::init()
 {
 	//@overview:init  a board with START number
-	for (int i = 0; i <= LEN; ++i) {
-		for (int j = 0; j <= LEN; ++j) {
+	for (int i = 0; i <= SUDOKU_LEN; ++i) {
+		for (int j = 0; j <=SUDOKU_LEN; ++j) {
 			board[i][j] = '0';
 		}
 	}
-	board[1][1] = START + '0';
+	board[1][1] = SUDOKU_START_NUM + '0';
 }
 
 inline int Sudoku::get_block(int i)
@@ -255,7 +255,7 @@ inline void Sudoku::trace_back_n(int i ,int j,int n, fstream& file)
 		j = 1;
 	}
 
-	for (int k = 1; k <= LEN; ++k) {
+	for (int k = 1; k <= SUDOKU_LEN; ++k) {
 		if (Sudoku::count >= n) return;
 		if (check_generate_pos(i, j, k)) {   //check if it is ok to set k on (i,j)
 			board[i][j] = k + '0';
@@ -270,14 +270,14 @@ inline bool Sudoku::trace_back_solve(int i, int j)
 	/*@overview:trace back function when solve sudoku
 	   @param:
 	*/
-	if (i == LEN && j == LEN + 1) return true;
-	if (i != LEN && j == LEN + 1) {
+	if (i == SUDOKU_LEN && j == SUDOKU_LEN + 1) return true;
+	if (i != SUDOKU_LEN&& j == SUDOKU_LEN + 1) {
 		j = 1;
 		++i;
 	}
 	if (board[i][j] != '0') return trace_back_solve(i, j + 1);
 	bool outcome;
-	for (int k = 1; k <= LEN ; ++k) {
+	for (int k = 1; k <= SUDOKU_LEN ; ++k) {
 		if (check_solve_pos(i, j, k)) {
 			board[i][j] = k + '0';
 			outcome = trace_back_solve(i, j + 1);
@@ -324,11 +324,11 @@ bool Sudoku::check_solve_pos(int i, int j, int k)
 	*/
 	
 	//check row
-	for (int a = 1; a <= LEN; ++a) {
+	for (int a = 1; a <= SUDOKU_LEN; ++a) {
 		if (board[i][a] == k + '0') return false;
 	}
 	//check col
-	for (int a = 1; a <= LEN; ++a) {
+	for (int a = 1; a <= SUDOKU_LEN; ++a) {
 		if (board[a][j] == k + '0') return false;
 	}
 	//check 3x3 block
