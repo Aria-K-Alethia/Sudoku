@@ -85,7 +85,6 @@ bool InputHandler::get_board(fstream &file,char board[][LEN+1])
 	//should have 10 lines for a single board;
 	for (int i = 1; i <= LEN; ++i) {
 		if(!getline(file,s)) return false;
-		//cout << s.length() << endl;
 		if (!regex_match(s, m, p)) {
 			file.close();
 			Output::error(5);
